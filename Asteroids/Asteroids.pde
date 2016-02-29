@@ -79,7 +79,7 @@ int[] options;
 SpaceShip mercury;
  
 // Game State
-int thanksObama;
+int GameStart;
 // 1. Playing
 // 2. Paused
 // 3. Game Over
@@ -104,7 +104,8 @@ void setup() {
   colorMode(HSB);
  
   // Immeadiately starts up the game
-  thanksObama = 1;
+  //thanksObama = 1;  I changed the value through the whole program to GameStart. I support Obama
+  GameStart = 1;
  
   // Sets the object arrays
   rocks = new ArrayList<Asteroid>();
@@ -196,7 +197,7 @@ void draw() {
         text("'R' to retry, idiot...", width/2-160, height/2+32);
  
         // Sets the correct game state
-        thanksObama = 3;
+        GameStart = 3;
  
         // Untranslates
         translate(-mercury.x, -mercury.y);
@@ -500,24 +501,24 @@ void keyPressed() {
   // Restarts the game
   if (key == 'r') {
     mercury.launch();
-    thanksObama = 1;
+    GameStart = 1;
     loop();
   }
  
   // Pauses and unpauses the game
   if (key == 'p') {
-    if (thanksObama == 1) {
+    if (GameStart == 1) {
       textSize(64);
       fill(255);
       text("QQ MOAR", width/2-160, height/2-64);
       textSize(32);
       text("'P' to man the f*ck up", width/2-160, height/2-32);
-      thanksObama = 2;
+      GameStart = 2;
       noLoop();
     }
     else {
-      if (thanksObama == 2) {
-        thanksObama = 1;
+      if (GameStart == 2) {
+        GameStart = 1;
         loop();
       }
     }
