@@ -1,17 +1,36 @@
 import cc.arduino.*;
 import org.firmata.*;
+/*
 
-Arduino arduino;
-int buttonup = 0;
-int buttondown = 1;
-int buttonright = 2;
-int buttonleft = 3;
-int buttonfire = 4;
+the original source code is here: http://www.openprocessing.org/sketch/120656#
 
-//We did not make this, we found it here
-//   http://www.openprocessing.org/sketch/120656#
-//check out what they have, its cool. 
 
+Here are some notes on the changes. 
+
+1. I changed the value of "thanksObama" to "GameStart" since it makes more sense  for this project
+2. added arduino stuff
+3. removed most of what I added. I don't need it really. 
+4. still working on changing button presses to recognizing shit from the console
+
+
+current version, is working
+
+
+
+these are notes for me. 
+
+
+isolated key call :
+"
+void keyPressed(){
+  switch(key) {
+    case 'k':
+    showMonkey = !showMonkey;
+  }
+}
+"
+
+*\
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
