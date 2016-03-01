@@ -1,8 +1,9 @@
-int buttonup = 0;
-int buttondown = 1;
-int buttonright = 2;
-int buttonleft = 3;
-int buttonfire = 4;
+int buttonup = 7;
+int buttondown = 6;
+int buttonright = 5;
+int buttonleft = 4;
+int buttonfire = 3;
+int lite = 12;
 
 
 int up, down, left, right, fire;
@@ -11,7 +12,15 @@ int up_, down_, left_, right_, fire_;
 
 void setup() {
   // put your setup code here, to run once:
-serial.begin(9600);
+Serial.begin(9600);
+pinMode(buttonup,INPUT);
+pinMode(buttondown,INPUT);
+pinMode(buttonright,INPUT);
+pinMode(buttonleft,INPUT);
+pinMode(buttonfire,INPUT);
+pinMode(lite, OUTPUT);
+
+
 }
 
 void loop() {
@@ -25,21 +34,23 @@ right = analogRead(buttonright);
 fire = analogRead(buttonfire);
 
 if (up == HIGH && up_!= HIGH){
-serial.println("UP");
-}
+Serial.println("UP");
+digitalWrite(lite, HIGH);
+}}
+/*
 if (down == HIGH && down_!= HIGH){
-serial.println("DOWN");
+Serial.println("DOWN");
 }
 if (left == HIGH && left_ != HIGH){
-  serial.println("LEFT");
+  Serial.println("LEFT");
 }
 if (right == HIGH && right_ != HIGH){
-  serial.println("RIGHT");
+  Serial.println("RIGHT");
 }
-if (shoot == HIGH && shoot_ != HIGH){
-  serial.println(" ");
+if (fire == HIGH && fire_ != HIGH){
+  Serial.println(" ");
 }
-
+}
 
 
 up_ = up;
@@ -51,4 +62,4 @@ shoot_=shoot;
 
   
 
-}
+}*/
