@@ -56,7 +56,7 @@ if (right_ != right){
 if (fire_ != fire){
   Serial.println("boom");
   fire_ = fire;
-}
+}   
 
 
 if (start_ != start){
