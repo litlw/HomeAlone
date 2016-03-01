@@ -8,7 +8,7 @@ int buttonstart = 3;
 
 
 int up, left, right, fire, start;
-int up_, left_, right_, fire_, start;
+int up_, left_, right_, fire_, start_;
 //these are the analog inputs. 
 
 void setup() {
@@ -63,7 +63,7 @@ if (start_ != start){
   Serial.println("start");
   start_ = start;
 }
-}
+
 
 
 up_ = up;
@@ -72,7 +72,3 @@ right_=right;
 fire_=fire;
 start_ = start;
 }
-
-  
-
-}*/
