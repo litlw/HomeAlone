@@ -1,7 +1,5 @@
-import cc.arduino.*;
-import org.firmata.*;
-/*
 
+/*
 the original source code is here: http://www.openprocessing.org/sketch/120656#
 
 
@@ -11,15 +9,17 @@ Here are some notes on the changes.
 2. added arduino stuff
 3. removed most of what I added. I don't need it really. 
 4. still working on changing button presses to recognizing shit from the console
+5. Implementing Arduino communication. I think I have a grip on this now. 
 
 
-current version, is working
+v.1.2, is not working
+v.1.1, is working
 
 
 
 these are notes for me. 
 
-
+*/
 isolated key call :
 "
 void keyPressed(){
@@ -114,6 +114,16 @@ boolean keyup = false;
 boolean keyright = false;
 boolean keyleft = false;
 boolean keyshoot = false;
+
+
+
+import processing.serial.*; // this is all so the arduino can control the game. 
+Serial myPort;  // Create object from Serial class
+String val;     // Data received from the serial port
+String val_;
+
+
+
  
 void setup() {
  
