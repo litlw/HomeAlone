@@ -10,8 +10,11 @@ Here are some notes on the changes.
 3. removed most of what I added. I don't need it really. 
 4. still working on changing button presses to recognizing shit from the console
 5. Implementing Arduino communication. I think I have a grip on this now. 
+6. I need to use the trim() function on what comes out of arduino. Otherwise, it doesnt work in comparison. 
+7. I have replaced the button functions with input from the arduino
 
 
+v.1.3, is kind of working
 v.1.2, is not working
 v.1.1, is working
 
@@ -20,17 +23,9 @@ v.1.1, is working
 these are notes for me. 
 
 */
-isolated key call :
-"
-void keyPressed(){
-  switch(key) {
-    case 'k':
-    showMonkey = !showMonkey;
-  }
-}
-"
 
-*\
+
+
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -110,31 +105,40 @@ int GameStart;
 //   spacebar : Shoot
 //        1-7 : Select Weapon
 //       v, b : Special Weapons
-boolean keyup = false;
+boolean keyup = false;        
 boolean keyright = false;
 boolean keyleft = false;
 boolean keyshoot = false;
 
+/// i took these out because we arent using keys. because we are awesome!!
 
 
 import processing.serial.*; // this is all so the arduino can control the game. 
 Serial myPort;  // Create object from Serial class
-String val;     // Data received from the serial port
-String val_;
+String input;     // Data received from the serial port
+String input_;     // the old value of the input. it should refresh the serial comms. 
 
+// these are the commands the program will be looking for in terms of playing the game. 
+// they are also the same notation as is in the arduino side. 
+
+String fire = "fire";
+String start = "start";
+String up = "up";
+String left = "left";
+String right = "right";
 
 
  
 void setup() {
  
   // Basic screen setup
-  size(768, 512);
+  fullScreen(); // this is a huge game. not just one little screen yonung bucks. 
   frameRate(30);
   colorMode(HSB);
  
   // Immeadiately starts up the game
   //thanksObama = 1;  I changed the value through the whole program to GameStart. I support Obama
-  GameStart = 1;
+  GameStart = 3; // the game hasnt started yet.. for now it is paused.
  
   // Sets the object arrays
   rocks = new ArrayList<Asteroid>();
@@ -145,9 +149,31 @@ void setup() {
   // Launches the Mercury
   mercury = new SpaceShip();
   mercury.launch();
+  
+  //sets up for arduino
+  String portName = Serial.list()[1]; //tested ports. the one on the right of my laptop is 1
+  myPort = new Serial(this, portName, 19200); 
+
+
 }
  
 void draw() {
+  
+    if ( myPort.available() > 0) {  // If data is available,
+  input = myPort.readStringUntil('\n');  // read it and store it in val forever
+  } 
+if (input_ != input){ // if there is a change in the reading. otherwise the game will be nuts as fuck.
+  println(input); //print it out in the console. for now it says Love the Bowie
+   input_ = input; // changes the value back to whatever it needs to be,
+   
+   // the change needs to be in the if loop, else it will go forever.
+} 
+
+if (input = null){ // i found that if the input is null, the thing crashes. so i have a fix here. 
+  input = "wait";
+}
+  
+  
  
   // Space, the final frontier
   background(0);
@@ -520,22 +546,22 @@ class Asteroid extends Object {
 // Oh wait, it is...
 void keyPressed() {
   // Toggles movement and shooting
-  if (key == CODED) {
-    if (keyCode == UP) keyup = true;
-    if (keyCode == LEFT) keyleft = true;
-    if (keyCode == RIGHT) keyright = true;
-  }
-  if (key == ' ') keyshoot = true;
+ 
+    if (up.equals(trim(input_)) == true) keyup = true;
+    if (left.equals(trim(input_)) == true) keyleft = true;
+    if (right.equals(trim(input_)) == true) keyright = true;
+ 
+  if (fire.equals(trim(input_)) == true) keyshoot = true;
  
   // Restarts the game
-  if (key == 'r') {
+  if (start.equals(trim(input_)) == true) {
     mercury.launch();
     GameStart = 1;
     loop();
   }
  
   // Pauses and unpauses the game
-  if (key == 'p') {
+  if (start.equals(trim(input_)) == true) {
     if (GameStart == 1) {
       textSize(64);
       fill(255);
@@ -626,15 +652,15 @@ void keyPressed() {
   }
 }
  
-void keyReleased() {
+//void keyReleased() {
   // Untoggles movement and shooting
-  if (key == CODED) {
-    if (keyCode == UP) keyup = false;
-    if (keyCode == LEFT) keyleft = false;
-    if (keyCode == RIGHT) keyright = false;
-  }
-  if (key == ' ') keyshoot = false;
-}
+ // if (key == CODED) {
+ //   if (keyCode == UP) keyup = false;
+ //   if (keyCode == LEFT) keyleft = false;
+  //  if (keyCode == RIGHT) keyright = false;
+//  }
+//  if (key == ' ') keyshoot = false;
+//}
  
 // May our lord savior grant us the goddamn burst laser we need to get 500 points
 class JesusChrist extends Object {
