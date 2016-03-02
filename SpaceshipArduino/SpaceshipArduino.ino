@@ -1,9 +1,9 @@
-int buttonup = 7;
+int buttonup = 6;
 
-int buttonright = 6;
-int buttonleft = 5;
-int buttonfire = 4;
-int buttonstart = 3;
+int buttonright = 3;
+int buttonleft = 4;
+int buttonfire = 5;
+int buttonstart = 7;
 
 
 

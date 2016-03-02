@@ -121,24 +121,26 @@ String input_;     // the old value of the input. it should refresh the serial c
 // these are the commands the program will be looking for in terms of playing the game. 
 // they are also the same notation as is in the arduino side. 
 
-String fire = "fire";
+String fire = "boom";
 String start = "start";
 String up = "up";
 String left = "left";
 String right = "right";
+int pause = 0;
 
 
  
 void setup() {
  
   // Basic screen setup
-  fullScreen(); // this is a huge game. not just one little screen yonung bucks. 
+ size(600, 800);
+ // fullScreen(); // this is a huge game. not just one little screen yonung bucks. 
   frameRate(30);
   colorMode(HSB);
  
   // Immeadiately starts up the game
   //thanksObama = 1;  I changed the value through the whole program to GameStart. I support Obama
-  GameStart = 3; // the game hasnt started yet.. for now it is paused.
+  GameStart = 1; // the game hasnt started yet.. for now it is paused.
  
   // Sets the object arrays
   rocks = new ArrayList<Asteroid>();
@@ -169,10 +171,9 @@ if (input_ != input){ // if there is a change in the reading. otherwise the game
    // the change needs to be in the if loop, else it will go forever.
 } 
 
-if (input = null){ // i found that if the input is null, the thing crashes. so i have a fix here. 
+if (input == null){ // i found that if the input is null, the thing crashes. so i have a fix here. 
   input = "wait";
 }
-  
   
  
   // Space, the final frontier
@@ -181,6 +182,11 @@ if (input = null){ // i found that if the input is null, the thing crashes. so i
   // Makes the grid
   strokeWeight(1);
   stroke(75, 64, 128);
+ 
+ 
+ keyPressed1();
+ keyReleased1();
+ 
  
   // Static space and Mercury centered
   /*for (int i = 0; i < height/32+1; i++) {
@@ -258,9 +264,12 @@ if (input = null){ // i found that if the input is null, the thing crashes. so i
         translate(-mercury.x, -mercury.y);
         translate(width/2-32*cos(mercury.a)*mercury.v,
         height/2-32*sin(mercury.a)*mercury.v);
+       
  
         // Stops the game
-        noLoop();
+        //noLoop();
+        keyPressed1();
+        pause = 0;
       }
       // Removes 1 point from the mercury's shield if it has any
       else {
@@ -544,39 +553,43 @@ class Asteroid extends Object {
  
 // Is this a game? Does this look like a game to you?
 // Oh wait, it is...
-void keyPressed() {
+void keyPressed1() {
   // Toggles movement and shooting
  
-    if (up.equals(trim(input_)) == true) keyup = true;
-    if (left.equals(trim(input_)) == true) keyleft = true;
-    if (right.equals(trim(input_)) == true) keyright = true;
+    if (up.equals(trim(input)) == true){
+      keyup = true;
+      println("go!");
+    }
+    if (left.equals(trim(input)) == true) keyleft = true;
+    if (right.equals(trim(input)) == true) keyright = true;
  
-  if (fire.equals(trim(input_)) == true) keyshoot = true;
- 
+  if (fire.equals(trim(input)) == true) keyshoot = true;
   // Restarts the game
-  if (start.equals(trim(input_)) == true) {
+  if (start.equals(trim(input)) == true && GameStart == 3) {
     mercury.launch();
     GameStart = 1;
-    loop();
   }
+  
+  
  
   // Pauses and unpauses the game
-  if (start.equals(trim(input_)) == true) {
-    if (GameStart == 1) {
-      textSize(64);
-      fill(255);
-      text("QQ MOAR", width/2-160, height/2-64);
-      textSize(32);
-      text("'P' to man the f*ck up", width/2-160, height/2-32);
-      GameStart = 2;
-      noLoop();
-    }
-    else {
-      if (GameStart == 2) {
-        GameStart = 1;
-        loop();
-      }
-    }
+  if (start.equals(trim(input)) == true) {
+   if (GameStart == 1) {
+     //textSize(64);
+     //fill(255);
+     //text("QQ MOAR", width/2-160, height/2-64);
+     //textSize(32);
+     //text("'P' to man the f*ck up", width/2-160, height/2-32);
+     GameStart = 2;
+     loop();
+   }
+   else {
+     if (GameStart == 2 || GameStart == 3) {
+       mercury.launch();
+       GameStart = 1;
+       loop();
+     }
+   }
   }
  
   // Debug control, enables all weapons
@@ -652,15 +665,20 @@ void keyPressed() {
   }
 }
  
-//void keyReleased() {
+void keyReleased1() {
   // Untoggles movement and shooting
- // if (key == CODED) {
- //   if (keyCode == UP) keyup = false;
- //   if (keyCode == LEFT) keyleft = false;
-  //  if (keyCode == RIGHT) keyright = false;
-//  }
-//  if (key == ' ') keyshoot = false;
-//}
+
+if (up.equals(trim(input)) == false){
+      keyup = false;
+      println("go!");
+    }
+    if (left.equals(trim(input)) == false) keyleft = false;
+    if (right.equals(trim(input)) == false) keyright = false;
+ 
+  if (fire.equals(trim(input)) == false) keyshoot = false;
+  
+ 
+}
  
 // May our lord savior grant us the goddamn burst laser we need to get 500 points
 class JesusChrist extends Object {
