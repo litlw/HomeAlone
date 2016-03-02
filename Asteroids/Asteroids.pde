@@ -133,8 +133,7 @@ int pause = 0;
 void setup() {
  
   // Basic screen setup
- size(600, 800);
- // fullScreen(); // this is a huge game. not just one little screen yonung bucks. 
+ fullScreen(); // this is a huge game. not just one little screen yonung bucks. 
   frameRate(30);
   colorMode(HSB);
  
