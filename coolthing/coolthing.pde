@@ -16,7 +16,7 @@ float accX = 1;
 float accY = -1;
 int w = 800;
 int h = 0;
-
+float deleteThisLater=991.1;
 
 void setup(){
  size(800,800);
