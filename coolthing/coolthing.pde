@@ -18,6 +18,10 @@ int w = 800;
 int h = 0;
 float deleteThisLater=991.1;
 
+/*im adding this text because I want to be able to know what I have changed, so I added this text. 
+Thats what i changed. Thats it. */
+
+
 void setup(){
  size(800,800);
  background(0);
